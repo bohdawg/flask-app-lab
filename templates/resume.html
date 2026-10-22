@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section id="about" class="row align-items-center g-4 mb-5">
+    <div class="col-md-3 text-center">
+        <img class="profile-photo"
+             src="{{ url_for('static', filename='images/profile.jpg') }}"
+             alt="Фото профілю">
+    </div>
+    <div class="col-md-9">
+        <p class="eyebrow mb-2">Вітаю на моїй сторінці</p>
+        <h1 class="display-5 fw-bold mb-3">Ваше ім'я</h1>
+        <p class="lead text-secondary mb-0">
+            Студент спеціальності "Інженерія програмного забезпечення"
+        </p>
+    </div>
+</section>
+
+<section id="education" class="resume-section">
+    <h2>Освіта</h2>
+    <p class="text-secondary mb-0">
+        Карпатський національний університет імені Василя Стефаника.
+        <br>
+        Спеціальність "Інженерія програмного забезпечення".
+        <br>
+        2024-нині
+    </p>
+</section>
+
+<section id="skills" class="resume-section">
+    <h2>Навички</h2>
+    <ul class="simple-list">
+        <li>Розв'язання задач і пошук інформації</li>
+        <li>Робота в команді та самостійне навчання</li>
+        <li>Основи розробки програмного забезпечення</li>
+    </ul>
+</section>
+
+<section id="technologies" class="resume-section">
+    <h2>Технології</h2>
+    <div class="d-flex flex-wrap gap-2">
+        <span class="badge text-bg-light">Python</span>
+        <span class="badge text-bg-light">HTML</span>
+        <span class="badge text-bg-light">CSS</span>
+        <span class="badge text-bg-light">Flask</span>
+        <span class="badge text-bg-light">Git</span>
+        <span class="badge text-bg-light">Node.js</span>
+    </div>
+</section>
+
+<section id="projects" class="resume-section">
+    <h2>Проєкти</h2>
+    <article class="project-item">
+    </article>
+</section>
+
+<section id="experience" class="resume-section">
+    <h2>Досвід роботи</h2>
+    <p class="text-secondary mb-0">
+        
+    </p>
+</section>
+{% endblock %}
