@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-heading mb-4">
+    <h1 class="display-5 fw-bold">Моє портфоліо</h1>
+    <p class="text-secondary">
+        Оберіть сторінку, яку бажаєте переглянути.
+    </p>
+</section>
+
+<nav>
+    <ul class="list-group">
+        <li class="list-group-item">
+            <a href="{{ url_for('resume') }}" class="text-decoration-none">
+                Моє резюме
+            </a>
+        </li>
+        <li class="list-group-item">
+            <a href="{{ url_for('contacts') }}" class="text-decoration-none">
+                Контакти
+            </a>
+        </li>
+    </ul>
+</nav>
+{% endblock %}

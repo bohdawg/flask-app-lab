@@ -1,7 +1,7 @@
-from flask import Flask, render_template
-app = Flask(__name__)
+from flask import render_template
+from . import app
 
-@app.route('/')
+@app.route('/resume')
 def resume():
     return render_template('resume.html', title='Резюме')
 
@@ -9,5 +9,6 @@ def resume():
 def contacts():
     return render_template('contacts.html', title='Контакти')
 
-if __name__ == '__main__':
-    app.run(debug=True)
+@app.route("/homepage")
+def home():
+    return render_template('index.html', title='Головна')
