@@ -10,7 +10,11 @@
 </head>
 <body>
     {% include "includes/navbar.html" %}
-
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+    {% endwith %}
     <main class="container py-5">
         {% block content %}{% endblock %}
     </main>

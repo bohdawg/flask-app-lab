@@ -11,3 +11,6 @@ app.register_blueprint(user_bp)
 
 from .products import product_bp
 app.register_blueprint(product_bp)
+
+from .auth import auth_bp
+app.register_blueprint(auth_bp)
