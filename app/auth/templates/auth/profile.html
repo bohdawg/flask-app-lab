@@ -1,6 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
+<a href="{{ url_for('auth.set_theme', color='light') }}" class="btn btn-outline-secondary btn-sm">Світла</a>
+<a href="{{ url_for('auth.set_theme', color='dark') }}" class="btn btn-dark btn-sm">Темна</a>
+
 <h1>Ласкаво просимо до сторінки {{ username }}!</h1>
 <p>Тут ви можете отримати інформацію та вийти з системи.</p>
 <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Вийти</a>
+
+<h4 class="mt-4">Додати кукі:</h4>
+<form method="POST" action="{{ url_for('auth.add_cookie') }}">
+    <input name="key" placeholder="Ключ кукі" class="form-control mb-2" required>
+    <input name="value" placeholder="Значення кукі" class="form-control mb-2">
+    <input name="max_age" type="number" placeholder="Термін дії (сек)" class="form-control mb-2">
+    <button class="btn btn-success">Додати кукі</button>
+</form>
+
+<h4 class="mt-4">Видалити кукі за ключем:</h4>
+<form method="POST" action="{{ url_for('auth.delete_cookie') }}">
+    <input name="key" placeholder="Ключ кукі для видалення" class="form-control mb-2" required>
+    <button class="btn btn-warning">Видалити кукі за ключем</button>
+</form>
+
+<h4 class="mt-4">Видалити всі кукі:</h4>
+<form method="POST" action="{{ url_for('auth.delete_all_cookies') }}">
+    <button class="btn btn-danger">Видалити всі кукі</button>
+</form>
+
+<h4 class="mt-4">Список всіх кукі:</h4>
+<table class="table table-striped">
+    <tr><th>Ключ</th><th>Значення</th></tr>
+    {% for key, value in cookies.items() %}
+    <tr><td>{{ key }}</td><td>{{ value }}</td></tr>
+    {% endfor %}
+</table>
 {% endblock %}
