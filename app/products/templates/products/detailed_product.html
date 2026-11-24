@@ -30,10 +30,18 @@
                             {{ product.content }}
                         </p>
 
-                           <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center">
                             <a href="{{ url_for('products.products') }}" class="btn btn-outline-secondary">
                                 &larr; Назад до каталогу
                             </a>
+                            <div class="d-flex gap-2">
+                                <a href="{{ url_for('products.edit', id=product.id) }}" class="btn btn-warning">Редагувати</a>
+                                <form method="POST" action="{{ url_for('products.delete', id=product.id) }}"
+                                      onsubmit="return confirm('Ви впевнені, що хочете видалити цей товар?');">
+                                    {{ delete_form.hidden_tag() }}
+                                    {{ delete_form.submit(class="btn btn-danger") }}
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
