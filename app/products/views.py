@@ -1,12 +1,14 @@
 from flask import render_template
 from . import product_bp
-from .model import products as products_list
+from .model import get_products, get_product
 
-@product_bp.route("/")
+@product_bp.route("")
 def products():
-    return render_template("products.html", products=products_list)
+    return render_template("products.html", title="Товари", products=get_products())
 
-@product_bp.route("/id/<int:id>")
+@product_bp.route("/<int:id>")
 def detailed(id):
-    product = next((item for item in products_list if item["id"] == id), None)
-    return render_template("detailed_product.html", product=product)
+    product = get_product(id)
+    if product is None:
+        return render_template("detailed_product.html", title="Товар не знайдено", product=None), 404
+    return render_template("detailed_product.html", title=product["name"], product=product)

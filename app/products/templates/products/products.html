@@ -9,19 +9,28 @@
             {% for product in products %}
                 <div class="col">
                     <div class="card h-100 shadow-sm border-0">
+                        {% if product.image %}
+                            <img src="{{ url_for('products.static', filename=product.image) }}"
+                                 class="card-img-top" alt="{{ product.name }}"
+                                 style="height: 200px; object-fit: cover;">
+                        {% else %}
+                            <div class="bg-secondary-subtle text-secondary text-center py-5">Немає зображення</div>
+                        {% endif %}
                         <div class="card-body d-flex flex-column">
                             <h3 class="card-title h5 mb-3">
                                 <a href="{{ url_for('products.detailed', id=product.id) }}" class="text-decoration-none text-primary fw-bold">
                                     {{ product.name }}
                                 </a>
                             </h3>
-                            
+
                             <div class="mb-2">
-                                <span class="badge bg-success fs-6">Ціна: {{ product.price }} грн</span>
+                                <span class="badge bg-success fs-6">Ціна: {{ "%.2f"|format(product.price) }} грн</span>
+                                <span class="badge bg-secondary fs-6">{{ product.category }}</span>
                             </div>
 
+                            <p class="card-text small mb-1">Кількість: {{ product.quantity }}</p>
                             <p class="card-text text-secondary small flex-grow-1">
-                                {{ product.content }}
+                                Додано: {{ product.created_at.replace("T", " ") }}
                             </p>
 
                             <a href="{{ url_for('products.detailed', id=product.id) }}" class="btn btn-outline-primary btn-sm mt-3 w-100">
