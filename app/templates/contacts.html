@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% from "_render_field.html" import render_field %}
 <section class="page-heading mb-4">
     <p class="eyebrow mb-2">Будьмо на зв'язку</p>
     <h1 class="display-5 fw-bold">Контакти</h1>
@@ -15,25 +16,14 @@
         <p><a href="https://github.com/bohdawg" target="_blank" rel="noopener">Мій профіль GitHub</a></p>
     </div>
 
-    <form>
-        <div class="mb-3">
-            <label for="name" class="form-label">Ім'я</label>
-            <input type="text" class="form-control" id="name" name="name" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="message" class="form-label">Повідомлення</label>
-            <textarea class="form-control" id="message" name="message"
-                      rows="5" required></textarea>
-        </div>
-
-        <button type="button" class="btn btn-dark">Надіслати</button>
-        <p class="form-text">Демонстраційна форма: повідомлення не надсилається.</p>
+    <form method="POST" novalidate>
+        {{ form.hidden_tag() }}
+        {{ render_field(form.name) }}
+        {{ render_field(form.email) }}
+        {{ render_field(form.phone, placeholder="+380XXXXXXXXX") }}
+        {{ render_field(form.subject) }}
+        {{ render_field(form.message, rows=5) }}
+        {{ form.submit(class="btn btn-dark") }}
     </form>
 </section>
 {% endblock %}
