@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy.orm import DeclarativeBase
@@ -31,5 +31,7 @@ def create_app(config_name: str = os.environ.get("FLASK_CONFIG", "development"))
     from .products.model import init_db
     with app.app_context():
         init_db()
-
+    @app.errorhandler(404)
+    def not_found(e):
+        return render_template('404.html', title='404'), 404
     return app
