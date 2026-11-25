@@ -1,3 +1,4 @@
+from . import views, models
 from flask import Blueprint
 
 post_bp = Blueprint(
