@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Optional
-from sqlalchemy import Boolean, Integer, String, Text, DateTime, Enum
+from sqlalchemy import Integer, String, Text, DateTime, Enum, Boolean
 from sqlalchemy.orm import Mapped, mapped_column
 from app import db
 
