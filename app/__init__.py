@@ -1,16 +1,35 @@
+import os
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from sqlalchemy.orm import DeclarativeBase
+from .config import config_map
 
-app = Flask(__name__)
-app.config.from_pyfile("../config.py")
+class Base(DeclarativeBase):
+    pass
 
-from . import views
+db = SQLAlchemy(model_class=Base)
+migrate = Migrate()
 
-from .users import user_bp
+def create_app(config_name: str = os.environ.get("FLASK_CONFIG", "development")) -> Flask:
+    app = Flask(__name__)
+    app.config.from_object(config_map[config_name])
 
-app.register_blueprint(user_bp)
+    db.init_app(app)
+    migrate.init_app(app, db)
 
-from .products import product_bp
-app.register_blueprint(product_bp)
+    from .views import main_bp
+    from .users import user_bp
+    from .products import product_bp
+    from .auth import auth_bp
 
-from .auth import auth_bp
-app.register_blueprint(auth_bp)
+    app.register_blueprint(main_bp)
+    app.register_blueprint(user_bp)
+    app.register_blueprint(product_bp)
+    app.register_blueprint(auth_bp)
+
+    from .products.model import init_db
+    with app.app_context():
+        init_db()
+
+    return app

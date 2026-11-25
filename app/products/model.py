@@ -1,13 +1,13 @@
 import os
 from datetime import datetime
 from tinydb import TinyDB
-from .. import app
+from flask import current_app
 
 TABLE_NAME = "products"
 
 def get_db():
     """Відкриває JSON-сховище TinyDB (каталог data/ створюється автоматично)."""
-    path = app.config["PRODUCTS_DB_PATH"]
+    path = current_app.config["PRODUCTS_DB_PATH"]
     os.makedirs(os.path.dirname(path), exist_ok=True)
     return TinyDB(path, indent=4, ensure_ascii=False, encoding="utf-8")
 
@@ -43,5 +43,4 @@ def update_product(product_id, data):
 def delete_product(product_id):
     with get_db() as db:
         db.table(TABLE_NAME).remove(doc_ids=[product_id])
-
-init_db()
+        

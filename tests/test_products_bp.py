@@ -2,7 +2,7 @@ import io
 import os
 import tempfile
 import unittest
-from app import app
+from app import create_app
 from app.products.forms import CATEGORIES
 from app.products.model import get_products, get_product
 from app.products.utils import delete_image
@@ -22,15 +22,17 @@ class FlaskAppTestCase(unittest.TestCase):
     def setUp(self):
         """Тимчасова БД і вимкнений CSRF перед кожним тестом."""
         self.tmp_dir = tempfile.TemporaryDirectory()
-        app.config["TESTING"] = True
-        app.config["WTF_CSRF_ENABLED"] = False
-        app.config["PRODUCTS_DB_PATH"] = os.path.join(self.tmp_dir.name, "products.json")
-        self.client = app.test_client()
+        self.app = create_app("testing")
+        self.app.config["PRODUCTS_DB_PATH"] = os.path.join(self.tmp_dir.name, "products.json")
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        self.client = self.app.test_client()
 
     def tearDown(self):
         """Видаляємо завантажені зображення і тимчасову БД."""
         for product in get_products():
             delete_image(product.get("image"))
+        self.app_context.pop()
         self.tmp_dir.cleanup()
 
     def add_product(self, follow_redirects=False, **overrides):

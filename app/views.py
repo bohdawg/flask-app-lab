@@ -1,13 +1,14 @@
 import json
 import os
 from datetime import datetime
-from flask import render_template, request, flash, redirect, url_for
-from . import app
+from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
 from .forms import ContactForm
+
+main_bp = Blueprint("main", __name__)
 
 def write_contact_log(form):
     """Дописує дані контактної форми у log-файл."""
-    path = app.config["CONTACT_LOG_PATH"]
+    path = current_app.config["CONTACT_LOG_PATH"]
     os.makedirs(os.path.dirname(path), exist_ok=True)
     record = {
         "name": form.name.data,
@@ -19,11 +20,11 @@ def write_contact_log(form):
     with open(path, "a", encoding="utf-8") as log_file:
         log_file.write(f"{datetime.now():%Y-%m-%d %H:%M:%S} {json.dumps(record, ensure_ascii=False)}\n")
 
-@app.route('/resume')
+@main_bp.route('/resume')
 def resume():
     return render_template('resume.html', title='Резюме')
 
-@app.route('/contacts', methods=['GET', 'POST'])
+@main_bp.route('/contacts', methods=['GET', 'POST'])
 def contacts():
     form = ContactForm()
     if form.validate_on_submit():
@@ -33,11 +34,11 @@ def contacts():
             flash("Не вдалося записати повідомлення. Спробуйте пізніше.", "danger")
         else:
             flash(f"Дякуємо, {form.name.data}! Ваше повідомлення надіслано.", "success")
-        return redirect(url_for('contacts'))   # PRG
+        return redirect(url_for('main.contacts'))
     if request.method == 'POST':
         flash("Форму заповнено з помилками. Перевірте виділені поля.", "danger")
     return render_template('contacts.html', title='Контакти', form=form)
 
-@app.route("/homepage")
+@main_bp.route("/homepage")
 def home():
     return render_template('index.html', title='Головна')
